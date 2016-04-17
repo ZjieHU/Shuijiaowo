@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff" >
+
+    <RelativeLayout
+        android:id="@+id/rlhead"
+        android:layout_width="fill_parent"
+        android:layout_height="96px"
+        android:background="#12b7f5" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:background="#00000000"
+            android:text="返回"
+            android:textColor="#FFFFFF"
+            android:textSize="32px" />
+
+        <TextView
+            android:id="@+id/tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:text="创建叫我"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="32px"
+            android:background="#00000000"
+            android:text="新增"
+            android:textColor="#FFFFFF"
+            android:textSize="32px" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rlbody"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/rlhead"
+        android:background="#f9f9fb"
+        android:orientation="vertical" >
+
+        <TimePicker
+            android:id="@+id/tp1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px" />
+
+        <Button
+            android:id="@+id/btn_video"
+            android:layout_width="match_parent"
+            android:layout_height="96px"
+            android:layout_marginTop="60px"
+            android:background="@drawable/btn_style"
+            android:gravity="left"
+            android:text="一个未知的他、她、它  ... 会叫我的，萌萌哒 ..."
+            android:textColor="#666666"
+            android:textSize="32px" />
+
+        <Button
+            android:id="@+id/btn_fre"
+            android:layout_width="match_parent"
+            android:layout_height="96px"
+            android:layout_marginTop="60px"
+            android:background="@drawable/btn_style"
+            android:gravity="left"
+            android:text="频次"
+            android:textColor="#666666"
+            android:textSize="32px" />
+
+        <TextView
+            android:id="@+id/tv_fre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="每日一次"
+            android:textColor="#666666"
+            android:textSize="32px" />
+
+        <EditText
+            android:id="@+id/et_remarks"
+            android:layout_width="match_parent"
+            android:layout_height="96px"
+            android:layout_marginTop="60px"
+            android:background="@drawable/btn_style"
+            android:gravity="left"
+            android:text="输入叫我啥事？"
+            android:textColor="#666666"
+            android:textSize="32px" />
+    </LinearLayout>
+
+</RelativeLayout>

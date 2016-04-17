@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">谁叫我</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="stop">停止录音</string>
+    <string name="play">播放</string>
+    <string name="list_stop">停止</string>
+
+</resources>

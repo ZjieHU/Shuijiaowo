@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f9f9fb"
+    tools:context=".VideoActivity" >
+
+    <RelativeLayout
+        android:id="@+id/rlhead"
+        android:layout_width="fill_parent"
+        android:layout_height="96px"
+        android:background="#12b7f5" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:background="#00000000"
+            android:text="返回"
+            android:textColor="#FFFFFF"
+            android:textSize="32px" />
+
+        <TextView
+            android:id="@+id/tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:text="我的录音"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="32px"
+            android:background="#00000000"
+            android:text="新增录音"
+            android:textColor="#FFFFFF"
+            android:textSize="32px" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rlbody"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/rlhead"
+        android:background="#f9f9fb"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/li1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/stop" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/video_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/li1" >
+        </ListView>
+    </LinearLayout>
+
+</RelativeLayout>

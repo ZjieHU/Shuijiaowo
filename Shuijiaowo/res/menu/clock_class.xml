@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/getup"
+        android:title="起床"/>
+    <item
+        android:id="@+id/th"
+        android:title="有事"/>
+    <item
+        android:id="@+id/meet"
+        android:title="见面"/>
+    <item
+        android:id="@+id/rest"
+        android:title="休息"/>
+    <item
+        android:id="@+id/study"
+        android:title="学习"/>
+    <item
+        android:id="@+id/other"
+        android:title="其他事"/>
+
+</menu>

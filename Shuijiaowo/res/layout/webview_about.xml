@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f9f9fb"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rlhead"
+        android:layout_width="fill_parent"
+        android:layout_height="96px"
+        android:background="#12b7f5" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:background="#00000000"
+            android:text="返回"
+            android:textColor="#FFFFFF"
+            android:textSize="32px" />
+
+        <TextView
+            android:id="@+id/tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:text="关于我们"
+            android:textColor="#FFFFFF"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/btnnext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:gravity="center" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rlbody"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/rlhead"
+        android:background="#f9f9fb"
+        android:orientation="vertical" >
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>
