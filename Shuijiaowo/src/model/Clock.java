@@ -16,7 +16,14 @@ public class Clock implements Serializable {
 	private String Remind_Audio;
 	private String Fre;
 	private Timestamp Time;  //到达时间
+	private Audio audio;
 	
+	public Audio getAudio() {
+		return audio;
+	}
+	public void setAudio(Audio audio) {
+		this.audio = audio;
+	}
 	public String getUser_Key() {
 		return User_Key;
 	}

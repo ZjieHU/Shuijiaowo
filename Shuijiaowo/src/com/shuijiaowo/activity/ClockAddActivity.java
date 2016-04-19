@@ -2,6 +2,7 @@ package com.shuijiaowo.activity;
 
 import java.util.Calendar;
 
+import service.SqlServiceImpl;
 import model.Clock;
 import model.User;
 
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,7 +36,8 @@ import android.content.SharedPreferences;
 @SuppressLint("HandlerLeak")
 public class ClockAddActivity extends Activity {
 
-	private User user = User.getUserInstance();
+	private User user;
+	private SqlServiceImpl sqlServiceImpl ;
 	
 	private Button btn_back, btn_fre;
 	private TextView view_tittle, tv_fre, btn_save;
@@ -42,14 +45,16 @@ public class ClockAddActivity extends Activity {
 	private String tittleString, remarksString;
 	private String params = null;
 	private TimePicker tp = null;
-	private String response;
 	String Time = new String();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.clock_add);
-
+		
+		sqlServiceImpl = new SqlServiceImpl(getApplicationContext());
+		user = User.getUserInstance(getApplicationContext());
+		
 		// 返回主页
 		toMainActivity();
 		// 频次选择
@@ -162,29 +167,9 @@ public class ClockAddActivity extends Activity {
 			//clock.setTime(Time);
 			clock.setFre(fre);
 			user.getClockList().add(clock);
+			sqlServiceImpl.saveUSer(user);
 			
 			Toast.makeText(getApplicationContext(), params, 1).show();
-			new Thread() {
-				public void run() {
-					// 返回的是0或1
-					response = PostUtil.sendPost(CommonUri.CLOCK_SAVE_URL,
-							params);
-
-					if (response.equals("0")) {
-						// 增加失败
-						handler.sendEmptyMessage(0x123);
-
-					} else if (response.equals("1")) {
-
-						// 增加成功
-						handler.sendEmptyMessage(0x1231);
-
-					}
-
-				}
-
-			}.start();
-			// handler.sendEmptyMessage(tag);
 
 		}
 
@@ -203,32 +188,5 @@ public class ClockAddActivity extends Activity {
 	public void setClock() {
 
 	}
-
-	@SuppressLint("HandlerLeak")
-	Handler handler = new Handler() {
-		@SuppressLint("HandlerLeak")
-		public void handleMessage(Message msg) {
-
-			if (msg.what == 0x123) {
-				Toast.makeText(getApplicationContext(), "保存失败，请重新保存",
-						Toast.LENGTH_SHORT).show();
-
-			} else if (msg.what == 0x1231) {
-
-				// 设定闹钟
-				setClock();
-				// 保存成功，返回主页
-				Intent intent = new Intent(ClockAddActivity.this,
-						MainActivity.class);
-				startActivity(intent);
-
-				Toast.makeText(getApplicationContext(), "保存成功",
-						Toast.LENGTH_SHORT).show();
-
-			}
-
-		}
-
-	};
 
 }

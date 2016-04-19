@@ -12,22 +12,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class SqlServiceImpl implements SqlService {
 
 	private static Context context;
 	
-	private static SqlServiceImpl sqlServiceImpl;
 	private SQLiteDatabase sqliteDatebase;
 	
 	private Serialization serialization;
 	
-	public SqlServiceImpl getSqlServiceImpl(Context c) {
-		if(sqlServiceImpl == null) {
-			sqlServiceImpl = new SqlServiceImpl();
-			sqlServiceImpl.context = c;
-		}
-		return sqlServiceImpl;
+	public SqlServiceImpl(Context c) {
+		serialization = new Serialization();
+		this.context = c;
 	}
 	
 	@Override
@@ -37,6 +34,7 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public boolean isExistsTable(String TableName) {
+		CreateDatebase("TOKEN");
 		Cursor cursor = sqliteDatebase.rawQuery("SELECT count(*) FROM"
 				+ " sqlite_master WHERE type='table' AND name='" + TableName +"'"
 				, null);
@@ -56,6 +54,7 @@ public class SqlServiceImpl implements SqlService {
 		isExistsTable("Token");
 		Cursor cursor = sqliteDatebase.rawQuery("SELECT * FROM Token", null);
 		byte[] clock = serialization.getSerialization(user.getClockList());
+		Log.v("myTag", user.getClockList().size()+"");
 		byte[] audio = serialization.getSerialization(user.getAudioMeList());
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("Token", user.getToken());
@@ -71,6 +70,7 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public User getUser() {
+		CreateDatebase("TOKEN");
 		Cursor cursor = sqliteDatebase.rawQuery("SELECT * FROM Token", null);
 		User user = new User();
 		if(cursor.moveToNext()) {
@@ -80,6 +80,7 @@ public class SqlServiceImpl implements SqlService {
 			user.setAudioMeList((ArrayList<Audio>) serialization.getObject(audioDate));
 			user.setToken(cursor.getString(cursor.getColumnIndex("Token")));
 		}
+		Log.v("myTag", user.getClockList().size()+"");
 		return user;
 	}
 }

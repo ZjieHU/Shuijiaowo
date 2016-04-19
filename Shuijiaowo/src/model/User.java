@@ -2,7 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import service.SqlServiceImpl;
+
 public class User {
+	
+	private static SqlServiceImpl sqlServiceImpl;
 	
 	private String Token;
 	private ArrayList<Clock> ClockList = new ArrayList<Clock>();
@@ -10,9 +15,10 @@ public class User {
 	
 	private static User user = null;
 	
-	public static User getUserInstance() {
+	public static User getUserInstance(Context c) {
 		if(user == null) {
-			user = new User();
+			sqlServiceImpl = new SqlServiceImpl(c);
+			user = sqlServiceImpl.getUser();
 		}
 		return user;
 	}

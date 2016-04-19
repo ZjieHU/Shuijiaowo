@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.Clock;
+import model.User;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+
 import com.example.shuijiaowo.R;
 import com.shuijiaowo.common.CommonUri;
 import com.shuijiaowo.util.PostUtil;
@@ -40,11 +44,10 @@ public class MainActivity extends Activity {
 	Menu menu;
 
 	private String params = null;
-	private String response;
 
+	private User user;
+	
 	// 闹钟列表
-	private List<Map<String, Object>> mData;
-	private int flag;
 	public static String title[] = new String[] { "菜名0", "菜名1", "菜名2", "菜名3",
 			"菜名4", "菜名5", "菜名6", "菜名7", "菜名8", "菜名9" };
 	public static String info[] = new String[] { "￥：28", "￥：28", "￥：28",
@@ -55,7 +58,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		user = User.getUserInstance(getApplicationContext());
+		
 		// 读取请求token
 		SharedPreferences mySharedPreferences = getSharedPreferences(
 				"shuijiaowo", Activity.MODE_PRIVATE);
@@ -63,15 +68,6 @@ public class MainActivity extends Activity {
 		// 开启子线程，请求数据
 		// 组合成params
 		params = "Token=" + token;
-		new Thread() {
-			public void run() {
-				// 返回的是0或1
-				response = PostUtil.sendPost(CommonUri.CLOCK_LIST_URL, params);
-
-			}
-
-		}.start();
-		handler.sendEmptyMessage(0x123);
 
 		// 个人中心
 		// toMe();
@@ -86,27 +82,12 @@ public class MainActivity extends Activity {
 		popupMenu.setOnMenuItemClickListener(new clockClassClickListener());
 
 		// 闹钟列表
-
+		clockList();
 	}
 
 	public void popupmenu(View v) {
 		popupMenu.show();
 	}
-
-	// // 去个人中心
-	// public void toMe() {
-	// meButton = (Button) super.findViewById(R.id.me);
-	// meButton.setOnClickListener(new onClickListener() {
-	//
-	// public void onClick(View v) {
-	// // TODO Auto-generated method stub
-	// Intent intent = new Intent(MainActivity.this, MeActivity.class);
-	// startActivity(intent);
-	//
-	// }
-	// });
-	//
-	// }
 
 	// 叫我点击类
 	class clockClassClickListener implements OnMenuItemClickListener {
@@ -158,37 +139,23 @@ public class MainActivity extends Activity {
 
 	// 闹钟列表总类
 	public void clockList() {
-		mData = getData();
 		ListView listView = (ListView) findViewById(R.id.listView);
-		MyAdapter adapter = new MyAdapter(this);
+		MyAdapter adapter = new MyAdapter(getApplicationContext());
 		listView.setAdapter(adapter);
 
-	}
-
-	// 获取动态数组数据 可以由其他地方传来(json等)
-	private List<Map<String, Object>> getData() {
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < title.length; i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("title", title[i]);
-			map.put("info", info[i]);
-			list.add(map);
-		}
-
-		return list;
 	}
 
 	public class MyAdapter extends BaseAdapter {
 
 		private LayoutInflater mInflater;
-
+		
 		public MyAdapter(Context context) {
 			this.mInflater = LayoutInflater.from(context);
 		}
-
+		
 		@Override
 		public int getCount() {
-			return mData.size();
+			return user.getClockList().size();
 		}
 
 		@Override
@@ -206,37 +173,43 @@ public class MainActivity extends Activity {
 		@Override
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
-			ViewHolder holder = null;
+			
+			Clock clock = user.getClockList().get(position);
+			
+			ViewHolder holder = new ViewHolder();
+			
 			if (convertView == null) {
 
-				holder = new ViewHolder();
-
 				// 可以理解为从vlist获取view 之后把view返回给ListView
-
-				convertView = mInflater.inflate(R.layout.vlist, null);
+				
+				convertView = MainActivity.this.getLayoutInflater().inflate(R.layout.vlist, null);
 				holder.title = (TextView) convertView.findViewById(R.id.title);
 				holder.info = (TextView) convertView.findViewById(R.id.info);
 				holder.viewBtn = (Button) convertView
 						.findViewById(R.id.view_btn);
+				holder.imageView = (ImageView)convertView.findViewById(R.id.sItemIcon);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
+			Log.v("myTag", "42");
+			if(clock != null) {
+				holder.title.setText(clock.getTime().toString());
+				Log.v("myTag", "2"+(holder.viewBtn == null));
+				holder.info.setText(clock.getRemarks());
+				holder.viewBtn.setTag(position);
+				holder.viewBtn.setText(clock.getFre());
 
-			holder.title.setText((String) mData.get(position).get("title"));
-			holder.info.setText((String) mData.get(position).get("info"));
-			holder.viewBtn.setTag(position);
-			// 给Button添加单击事件 添加Button之后ListView将失去焦点 需要的直接把Button的焦点去掉
-			holder.viewBtn.setOnClickListener(new View.OnClickListener() {
+				// 给Button添加单击事件 添加Button之后ListView将失去焦点 需要的直接把Button的焦点去掉
+				holder.viewBtn.setOnClickListener(new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					showInfo(position);
-				}
-			});
-
-			// holder.viewBtn.setOnClickListener(MyListener(position));
-
+					@Override
+					public void onClick(View v) {
+						showInfo(position);
+					}
+				});
+			}
+			Log.v("myTag", "1"+(convertView == null));
 			return convertView;
 		}
 	}
@@ -246,12 +219,14 @@ public class MainActivity extends Activity {
 		public TextView title;
 		public TextView info;
 		public Button viewBtn;
+		public ImageView imageView;
 	}
 
 	public void showInfo(int position) {
 
 		ImageView img = new ImageView(MainActivity.this);
 		img.setImageResource(R.drawable.b);
+		Clock clock = user.getClockList().get(position);
 		new AlertDialog.Builder(this)
 				.setView(img)
 				.setTitle("详情" + position)
@@ -262,20 +237,5 @@ public class MainActivity extends Activity {
 					}
 				}).show();
 	}
-
-	@SuppressLint("HandlerLeak")
-	Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-
-			if (msg.what == 0x123) {
-
-				// 调用闹钟总类进行刷新
-				clockList();
-
-			}
-
-		}
-
-	};
 
 }
