@@ -8,6 +8,15 @@ public class User {
 	private ArrayList<Clock> ClockList = new ArrayList<Clock>();
 	private ArrayList<Audio> AudioMeList = new ArrayList<Audio>();
 	
+	private static User user = null;
+	
+	public static User getUserInstance() {
+		if(user == null) {
+			user = new User();
+		}
+		return user;
+	}
+	
 	public String getToken() {
 		return Token;
 	}

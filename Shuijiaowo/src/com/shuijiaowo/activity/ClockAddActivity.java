@@ -2,6 +2,9 @@ package com.shuijiaowo.activity;
 
 import java.util.Calendar;
 
+import model.Clock;
+import model.User;
+
 import com.example.shuijiaowo.R;
 import com.shuijiaowo.activity.LoginActivity.codeOnClickListener;
 import com.shuijiaowo.check.CheckString;
@@ -31,6 +34,8 @@ import android.content.SharedPreferences;
 @SuppressLint("HandlerLeak")
 public class ClockAddActivity extends Activity {
 
+	private User user = User.getUserInstance();
+	
 	private Button btn_back, btn_fre;
 	private TextView view_tittle, tv_fre, btn_save;
 	private EditText et_remarks;
@@ -147,14 +152,17 @@ public class ClockAddActivity extends Activity {
 	public class clockSaveOnClickListener implements OnClickListener {
 
 		public void onClick(View v) {
-			// TODO 自动生成的方法存根
-			String fre = "1";
-			
-			//获得设定的时间
+			String fre = "1";  //一分钟一次
 			
 			// 组合成params
 			params = "Type=" + tittleString + "&Time=" + Time + "&Fre=" + fre
 					+ "&Remarks=" + remarksString;
+			Clock clock = new Clock();
+			clock.setType(tittleString);
+			//clock.setTime(Time);
+			clock.setFre(fre);
+			user.getClockList().add(clock);
+			
 			Toast.makeText(getApplicationContext(), params, 1).show();
 			new Thread() {
 				public void run() {

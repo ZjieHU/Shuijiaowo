@@ -10,12 +10,12 @@ public class Clock implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String User_Key;
 	private String ClockID;
-	private String Type;
+	private String Type;  //设置定时的种类
 	private Timestamp Time_Start;
-	private String Remarks;
+	private String Remarks;  //输入叫我干啥事
 	private String Remind_Audio;
 	private String Fre;
-	private Timestamp Time;
+	private Timestamp Time;  //到达时间
 	
 	public String getUser_Key() {
 		return User_Key;
