@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class User {
 	
 	private String Token;
-	private ArrayList<String> ClockList = new ArrayList<String>();
-	private ArrayList<String> AudioMeList = new ArrayList<String>();
+	private ArrayList<Clock> ClockList = new ArrayList<Clock>();
+	private ArrayList<Audio> AudioMeList = new ArrayList<Audio>();
 	
 	public String getToken() {
 		return Token;
@@ -14,18 +14,16 @@ public class User {
 	public void setToken(String token) {
 		Token = token;
 	}
-	public ArrayList<String> getClockList() {
+	public ArrayList<Clock> getClockList() {
 		return ClockList;
 	}
-	public void setClockList(ArrayList<String> clockList) {
+	public void setClockList(ArrayList<Clock> clockList) {
 		ClockList = clockList;
 	}
-	public ArrayList<String> getAudioMeList() {
+	public ArrayList<Audio> getAudioMeList() {
 		return AudioMeList;
 	}
-	public void setAudioMeList(ArrayList<String> audioMeList) {
+	public void setAudioMeList(ArrayList<Audio> audioMeList) {
 		AudioMeList = audioMeList;
 	}
-	
-	
 }

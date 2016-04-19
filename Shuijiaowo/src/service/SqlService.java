@@ -1,5 +1,7 @@
 package service;
 
+import model.User;
+
 public interface SqlService {
 	
 	//创建数据库
@@ -9,9 +11,9 @@ public interface SqlService {
 	public boolean isExistsTable(String TableName);
 	
 	//保存Token
-	public void saveToken(String Token);
+	public void saveUSer(User user);
 	
 	//得到Token
-	public String getToken();
+	public User getUser();
 	
 }

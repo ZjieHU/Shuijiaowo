@@ -1,9 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Clock {
-	
+public class Clock implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String User_Key;
 	private String ClockID;
 	private String Type;

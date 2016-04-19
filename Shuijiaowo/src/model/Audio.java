@@ -1,13 +1,17 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Audio {
+public class Audio implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String User_KEY;
 	private String AudioID;
 	private String Name;
-	private String URL;
 	private Timestamp Time;
 	
 	public String getUser_KEY() {
@@ -27,12 +31,6 @@ public class Audio {
 	}
 	public void setName(String name) {
 		Name = name;
-	}
-	public String getURL() {
-		return URL;
-	}
-	public void setURL(String uRL) {
-		URL = uRL;
 	}
 	public Timestamp getTime() {
 		return Time;

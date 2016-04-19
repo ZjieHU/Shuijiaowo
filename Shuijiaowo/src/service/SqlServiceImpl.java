@@ -1,5 +1,13 @@
 package service;
 
+import java.util.ArrayList;
+
+import com.sun.org.apache.bcel.internal.classfile.ConstantValue;
+
+import model.Audio;
+import model.Clock;
+import model.User;
+import SerializationTool.Serialization;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +19,8 @@ public class SqlServiceImpl implements SqlService {
 	
 	private static SqlServiceImpl sqlServiceImpl;
 	private SQLiteDatabase sqliteDatebase;
+	
+	private Serialization serialization;
 	
 	public SqlServiceImpl getSqlServiceImpl(Context c) {
 		if(sqlServiceImpl == null) {
@@ -33,7 +43,8 @@ public class SqlServiceImpl implements SqlService {
 		if(cursor.moveToNext()) {
 			if(cursor.getInt(0) == 0) {
 				sqliteDatebase.execSQL("CREATE TABLE " + TableName
-						+ "Token VARCHAR");
+						+ "(id INTEGER PRIMARY KEY AUTOINCREMENT , Token VARCHAR ,"
+						+ " ClockList TEXT, AudioList Text)");
 			}
 		}
 		cursor.close();
@@ -41,28 +52,34 @@ public class SqlServiceImpl implements SqlService {
 	}
 
 	@Override
-	public void saveToken(String Token) {
+	public void saveUSer(User user) {
 		isExistsTable("Token");
-		Cursor cursor = sqliteDatebase.rawQuery("SELECT * FROM Token"
-				, null);
+		Cursor cursor = sqliteDatebase.rawQuery("SELECT * FROM Token", null);
+		byte[] clock = serialization.getSerialization(user.getClockList());
+		byte[] audio = serialization.getSerialization(user.getAudioMeList());
+		ContentValues contentValues = new ContentValues();
+		contentValues.put("Token", user.getToken());
+		contentValues.put("ClockList", clock);
+		contentValues.put("AudioList", audio);
 		if(cursor.moveToNext()) {
-			ContentValues contentValue = new ContentValues();
-			contentValue.put("Token", Token);
-			sqliteDatebase.update("Token", contentValue, null, null);
+			sqliteDatebase.update("TOKEN", contentValues, null, null);
 		}else {
-			sqliteDatebase.rawQuery("INSERT INTO TOKEN VALUES (?", new String[] {Token});
+			String sql = "INSERT INTO TOKEN VALUES (NULL, ? , ? , ?)";
+			sqliteDatebase.execSQL(sql, new Object[]{user.getToken(), clock, audio});
 		}
-		cursor.close();
 	}
 
 	@Override
-	public String getToken() {
-		String Token = new String();
+	public User getUser() {
 		Cursor cursor = sqliteDatebase.rawQuery("SELECT * FROM Token", null);
+		User user = new User();
 		if(cursor.moveToNext()) {
-			return cursor.getString(cursor.getColumnIndex("Token"));
+			byte[] clockData = cursor.getBlob(cursor.getColumnIndex("ClockList"));
+			user.setClockList((ArrayList<Clock>) serialization.getObject(clockData));
+			byte[] audioDate = cursor.getBlob(cursor.getColumnIndex("AudioList"));
+			user.setAudioMeList((ArrayList<Audio>) serialization.getObject(audioDate));
+			user.setToken(cursor.getString(cursor.getColumnIndex("Token")));
 		}
-		cursor.close();
-		return null;
+		return user;
 	}
 }
