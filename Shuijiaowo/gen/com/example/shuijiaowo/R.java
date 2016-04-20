@@ -106,7 +106,7 @@ public final class R {
         public static final int tv_fre=0x7f09000f;
         public static final int tv_video=0x7f090018;
         public static final int video_list=0x7f09001e;
-        public static final int view_btn=0x7f090025;
+        public static final int view_txt=0x7f090025;
         public static final int webView=0x7f090026;
     }
     public static final class layout {

@@ -17,9 +17,16 @@ public class Clock implements Serializable {
 	private String Fre;
 	private Timestamp Time;  //到达时间
 	private Audio audio;
+	private String picturePath;
 	
 	public Audio getAudio() {
 		return audio;
+	}
+	public String getPicturePath() {
+		return picturePath;
+	}
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
 	}
 	public void setAudio(Audio audio) {
 		this.audio = audio;

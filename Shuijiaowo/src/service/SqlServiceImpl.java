@@ -80,7 +80,7 @@ public class SqlServiceImpl implements SqlService {
 			user.setAudioMeList((ArrayList<Audio>) serialization.getObject(audioDate));
 			user.setToken(cursor.getString(cursor.getColumnIndex("Token")));
 		}
-		Log.v("myTag", user.getClockList().size()+"");
+//		Log.v("myTag", user.getClockList().get(0).getType()+"");
 		return user;
 	}
 }

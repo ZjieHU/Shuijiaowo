@@ -12,6 +12,7 @@ import com.shuijiaowo.check.CheckString;
 import com.shuijiaowo.common.CommonUri;
 import com.shuijiaowo.util.PostUtil;
 
+import encodeTool.ConverDate;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,20 +39,23 @@ public class ClockAddActivity extends Activity {
 
 	private User user;
 	private SqlServiceImpl sqlServiceImpl ;
+	private ConverDate convertDate;
 	
 	private Button btn_back, btn_fre;
 	private TextView view_tittle, tv_fre, btn_save;
 	private EditText et_remarks;
 	private String tittleString, remarksString;
-	private String params = null;
 	private TimePicker tp = null;
-	String Time = new String();
-
+	
+	StringBuilder Time = new StringBuilder();
+	String currentTime = new String();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.clock_add);
 		
+		convertDate = new ConverDate();
 		sqlServiceImpl = new SqlServiceImpl(getApplicationContext());
 		user = User.getUserInstance(getApplicationContext());
 		
@@ -95,8 +99,11 @@ public class ClockAddActivity extends Activity {
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);// 小时
 		int minute = cal.get(Calendar.MINUTE);// 分
+		int year = cal.get(Calendar.YEAR); //年
+		int month = cal.get(Calendar.MONTH);//月
+		int day = cal.get(Calendar.DAY_OF_MONTH); //日
 		
-		Time = hour +":"+minute;
+		saveClock(hour,minute,year,month,day);
 		
 		this.tp.setCurrentHour(hour);
 		this.tp.setCurrentMinute(minute);
@@ -107,7 +114,44 @@ public class ClockAddActivity extends Activity {
 		btn_save.setOnClickListener(new clockSaveOnClickListener());
 
 	}
-
+	
+	public void saveClock(int hour , int minute , int year , int month , int day) {
+		if(year != 0 && month != 0 && day != 0) {
+			Time.append(year+"-");
+			if(month < 10) {
+				Time.append("0"+month+"-");
+			}else{
+				Time.append(month+"-");
+			}
+			if(day < 10) {
+				Time.append("0"+day+"-");
+			}else{
+				Time.append(day+" ");
+			}
+			if(hour < 10) {
+				currentTime = "0" + hour + ":" ;
+			}else {
+				currentTime = hour + ":" ;
+			}
+			if(minute < 10) {
+				currentTime += "0" + minute + ":00" ;
+			}else {
+				currentTime += minute + ":00" ;
+			}
+		}else {
+			if(hour < 10) {
+				currentTime = "0" + hour + ":" ;
+			}else {
+				currentTime = hour + ":" ;
+			}
+			if(minute < 10) {
+				currentTime += "0" + minute + ":00" ;
+			}else {
+				currentTime += minute + ":00" ;
+			}
+		}
+	}
+	
 	// 返回主页
 	public void toMainActivity() {
 		btn_back = (Button) this.findViewById(R.id.btn_back);
@@ -142,9 +186,6 @@ public class ClockAddActivity extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 
 						tv_fre.setText(cities[which]);
-						Toast.makeText(ClockAddActivity.this,
-								"选择为：" + cities[which], Toast.LENGTH_SHORT)
-								.show();
 					}
 				});
 				builder.show();
@@ -157,36 +198,31 @@ public class ClockAddActivity extends Activity {
 	public class clockSaveOnClickListener implements OnClickListener {
 
 		public void onClick(View v) {
-			String fre = "1";  //一分钟一次
+			String time = Time.toString() + currentTime;
+			if(user.getClockList().size() <= 6) {
+				Clock clock = new Clock();
+				clock.setType(tittleString);
+				clock.setTime(convertDate.StrConvertDate(time));
+				clock.setFre(tv_fre.getText().toString());
+				clock.setRemarks("备注");
+				user.getClockList().add(clock);
+				sqlServiceImpl.saveUSer(user);
+				Toast.makeText(getApplicationContext(), "保存成功", 1).show();
+			}else {
+				Toast.makeText(getApplicationContext(), "闹钟列表最大六条", 1).show();
+			}
 			
-			// 组合成params
-			params = "Type=" + tittleString + "&Time=" + Time + "&Fre=" + fre
-					+ "&Remarks=" + remarksString;
-			Clock clock = new Clock();
-			clock.setType(tittleString);
-			//clock.setTime(Time);
-			clock.setFre(fre);
-			user.getClockList().add(clock);
-			sqlServiceImpl.saveUSer(user);
 			
-			Toast.makeText(getApplicationContext(), params, 1).show();
-
+			
 		}
-
 	}
 
 	public class getTime implements OnTimeChangedListener {
 
 		@Override
 		public void onTimeChanged(TimePicker view, int hour, int minute) {
-			Time = hour + ":" + minute;
+			saveClock(hour,minute,0,0,0);
 		}
 		
 	}
-	
-	// 设定闹钟
-	public void setClock() {
-
-	}
-
 }
