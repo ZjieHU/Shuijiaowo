@@ -70,7 +70,7 @@ public class SqlServiceImpl implements SqlService {
 
 	@Override
 	public User getUser() {
-		CreateDatebase("TOKEN");
+		isExistsTable("Token");
 		Cursor cursor = sqliteDatebase.rawQuery("SELECT * FROM Token", null);
 		User user = new User();
 		if(cursor.moveToNext()) {

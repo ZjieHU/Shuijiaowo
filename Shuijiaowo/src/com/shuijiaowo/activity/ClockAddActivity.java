@@ -13,6 +13,8 @@ import com.shuijiaowo.common.CommonUri;
 import com.shuijiaowo.util.PostUtil;
 
 import encodeTool.ConverDate;
+import GestureOperation.GestureWidgetOnClick;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
@@ -36,16 +39,20 @@ import android.content.SharedPreferences;
 
 @SuppressLint("HandlerLeak")
 public class ClockAddActivity extends Activity {
-
+	
 	private User user;
 	private SqlServiceImpl sqlServiceImpl ;
 	private ConverDate convertDate;
+	private boolean isNewClock = true;
 	
-	private Button btn_back, btn_fre;
+	private Button btn_back;
+	private View btn_fre;
 	private TextView view_tittle, tv_fre, btn_save;
 	private EditText et_remarks;
-	private String tittleString, remarksString;
+	private String tittleString;
 	private TimePicker tp = null;
+	
+	private Intent intent;
 	
 	StringBuilder Time = new StringBuilder();
 	String currentTime = new String();
@@ -69,11 +76,11 @@ public class ClockAddActivity extends Activity {
 		tv_fre = (TextView) findViewById(R.id.tv_fre);
 		// 闹钟备注
 		et_remarks = (EditText) super.findViewById(R.id.et_remarks);
-		remarksString = et_remarks.getText().toString();
+		et_remarks.getText().toString();
 
 		// 得到跳转到该Activity的Intent对象
-		Intent intent = getIntent();
-		String typeid = intent.getStringExtra("typeid");
+		intent = getIntent();
+		final String typeid = intent.getStringExtra("typeid");
 
 		if (typeid.equals("getup")) {
 			tittleString = "起床";
@@ -87,6 +94,9 @@ public class ClockAddActivity extends Activity {
 			tittleString = "学习";
 		} else if (typeid.equals("other")) {
 			tittleString = "其他事";
+		}else {
+			isNewClock = false;
+			tittleString = user.getClockList().get(Integer.parseInt(typeid)).getType();
 		}
 
 		// 时间选择
@@ -112,7 +122,27 @@ public class ClockAddActivity extends Activity {
 		// 新增按钮
 		btn_save = (Button) super.findViewById(R.id.btn_save);
 		btn_save.setOnClickListener(new clockSaveOnClickListener());
-
+		
+		//如果不是新增则隐藏按钮
+		ImageView deleteCurrentClock = (ImageView)findViewById(R.id.delete_clock);
+		if(isNewClock) {
+			deleteCurrentClock.setVisibility(View.INVISIBLE);
+		}else {
+			deleteCurrentClock.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) { //删除当前闹钟
+					user.getClockList().remove(Integer.parseInt(typeid));
+					LinkToMainActivity();
+				}
+			});
+		}
+	}
+	
+	public void LinkToMainActivity() {
+		Intent i = new Intent(ClockAddActivity.this,MainActivity.class);
+		startActivity(i);
+		MainActivity.getMainActivityInstance().finish();
+		finish();
 	}
 	
 	public void saveClock(int hour , int minute , int year , int month , int day) {
@@ -156,22 +186,16 @@ public class ClockAddActivity extends Activity {
 	public void toMainActivity() {
 		btn_back = (Button) this.findViewById(R.id.btn_back);
 		btn_back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(ClockAddActivity.this,
-						MainActivity.class);
-				startActivity(intent);
-
+				LinkToMainActivity();
 			}
 		});
-
 	}
 
 	// 频次选择
 	public void btn_fre() {
-		btn_fre = (Button) super.findViewById(R.id.btn_fre);
+		btn_fre = (View) super.findViewById(R.id.btn_fre);
 		btn_fre.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -184,14 +208,12 @@ public class ClockAddActivity extends Activity {
 				builder.setItems(cities, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-
 						tv_fre.setText(cities[which]);
 					}
 				});
 				builder.show();
 			}
 		});
-
 	}
 
 	// 点击闹钟保存
@@ -204,25 +226,24 @@ public class ClockAddActivity extends Activity {
 				clock.setType(tittleString);
 				clock.setTime(convertDate.StrConvertDate(time));
 				clock.setFre(tv_fre.getText().toString());
-				clock.setRemarks("备注");
+				clock.setRemarks(et_remarks.getText().toString());
 				user.getClockList().add(clock);
+				if(!isNewClock) {
+					user.getClockList().remove(Integer.parseInt(intent.getStringExtra("typeid")));
+				}
 				sqlServiceImpl.saveUSer(user);
+				LinkToMainActivity();
 				Toast.makeText(getApplicationContext(), "保存成功", 1).show();
 			}else {
 				Toast.makeText(getApplicationContext(), "闹钟列表最大六条", 1).show();
 			}
-			
-			
-			
 		}
 	}
 
 	public class getTime implements OnTimeChangedListener {
-
 		@Override
 		public void onTimeChanged(TimePicker view, int hour, int minute) {
 			saveClock(hour,minute,0,0,0);
 		}
-		
 	}
 }

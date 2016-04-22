@@ -17,23 +17,32 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:src="@drawable/banner" />
-
+        
+        <ImageView 
+            android:id="@+id/head_pic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/me_selector"
+            android:contentDescription="这是我的头像"
+            />
+        
         <Button
-            android:id="@+id/me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/audio"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignLeft="@id/banner"
-            android:layout_marginLeft="15dip"
-            android:layout_marginTop="15dip"
-            android:background="@drawable/me_selector" />
+            android:layout_marginLeft="5dip"
+            android:layout_marginTop="5dip"
+            android:background="@drawable/audio" />
 
         <Button
             android:id="@+id/btn_clock_class"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignRight="@id/banner"
-            android:layout_marginRight="15dip"
-            android:layout_marginTop="15dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
             android:background="@drawable/clock_add_selector"
             android:onClick="popupmenu" />
     </RelativeLayout>

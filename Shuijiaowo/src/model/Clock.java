@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import android.graphics.Bitmap;
+
 public class Clock implements Serializable {
 	/**
 	 * 
@@ -17,16 +19,16 @@ public class Clock implements Serializable {
 	private String Fre;
 	private Timestamp Time;  //到达时间
 	private Audio audio;
-	private String picturePath;
+	private Bitmap headerPitcure;
 	
+	public Bitmap getHeaderPitcure() {
+		return headerPitcure;
+	}
+	public void setHeaderPitcure(Bitmap headerPitcure) {
+		this.headerPitcure = headerPitcure;
+	}
 	public Audio getAudio() {
 		return audio;
-	}
-	public String getPicturePath() {
-		return picturePath;
-	}
-	public void setPicturePath(String picturePath) {
-		this.picturePath = picturePath;
 	}
 	public void setAudio(Audio audio) {
 		this.audio = audio;
