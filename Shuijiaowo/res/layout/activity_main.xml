@@ -6,60 +6,188 @@
     android:background="#EBEBEB"
     android:orientation="vertical" >
 
-    <RelativeLayout
+   	<RelativeLayout
         android:id="@+id/head"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <ImageView
+        <TextView
             android:id="@+id/banner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/banner" />
-        
-        <ImageView 
-            android:id="@+id/head_pic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/me_selector"
-            android:contentDescription="这是我的头像"
-            />
+            android:background="@drawable/bn"
+             />
         
         <Button
             android:id="@+id/audio"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignLeft="@id/banner"
-            android:layout_marginLeft="5dip"
-            android:layout_marginTop="5dip"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="12dip"
             android:background="@drawable/audio" />
-
+         
         <Button
             android:id="@+id/btn_clock_class"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignRight="@id/banner"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="5dip"
+            android:layout_marginRight="12dip"
+            android:layout_marginTop="12dip"
             android:background="@drawable/clock_add_selector"
             android:onClick="popupmenu" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#EBEBEB"
-        android:orientation="vertical" >
-
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:divider="@drawable/list_line"
-            android:dividerHeight="1dip" />
-    </LinearLayout>
-
+	
+	    <ListView
+	    	android:background="#EBEBEB"
+	       	android:layout_below="@id/banner"
+	        android:id="@+id/listView"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:divider="@drawable/list_line"
+	        android:dividerHeight="1dip" />
+	    
+	    <ImageView 
+	        android:visibility="invisible"
+            android:layout_below="@id/btn_clock_class"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-10dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/puls_sign_pop"
+            android:src="@drawable/plus_sign_pop"
+            />
+	    <LinearLayout 
+	        android:layout_below="@id/btn_clock_class"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="34dp"
+	        android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/plus_sign_pop_txt"
+            android:visibility="invisible"
+	        android:orientation="vertical" >
+	        <LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="12dp"
+		        android:id="@+id/menu1"
+		        android:orientation="horizontal" >
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="15dp"
+		            android:src="@drawable/get_up"
+		             />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="16dp"
+		            android:textSize="20sp"
+		            android:text="起床"
+		            />
+	    	</LinearLayout>
+	    	<LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:id="@+id/menu2"
+		        android:layout_marginTop="12dp" >
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="15dp"
+		            android:src="@drawable/meet"
+		             />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="16dp"
+		            android:textSize="20sp"
+		            android:text="见面"
+		            />
+	    	</LinearLayout>
+	    	<LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:id="@+id/menu3"
+		        android:layout_marginTop="12dp" >
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="15dp"
+		            android:src="@drawable/thing"
+		             />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="16dp"
+		            android:textSize="20sp"
+		            android:text="有事"
+		            />
+	    	</LinearLayout>
+	    	<LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:id="@+id/menu4"
+		        android:layout_marginTop="12dp" >
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="15dp"
+		            android:src="@drawable/rest"
+		             />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="16dp"
+		            android:textSize="20sp"
+		            android:text="休息"
+		            />
+	    	</LinearLayout>
+	    	<LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:id="@+id/menu5"
+		        android:layout_marginTop="12dp" >
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="15dp"
+		            android:src="@drawable/study"
+		             />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="16dp"
+		            android:textSize="20sp"
+		            android:text="学习"
+		            />
+	    	</LinearLayout>
+	    	<LinearLayout 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:id="@+id/menu6"
+		        android:layout_marginTop="12dp" > 
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="15dp"
+		            android:src="@drawable/other"
+		             />
+		        <TextView 
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="16dp"
+		            android:textSize="20sp" 
+		            android:text="其他"
+		            />
+	    	</LinearLayout>
+    	</LinearLayout>
+    </RelativeLayout> 
 </LinearLayout>

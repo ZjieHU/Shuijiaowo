@@ -40,6 +40,9 @@ import android.content.SharedPreferences;
 @SuppressLint("HandlerLeak")
 public class ClockAddActivity extends Activity {
 	
+	private View fre_choice;
+	private boolean isfreChoiceVisible = false;
+	
 	private User user;
 	private SqlServiceImpl sqlServiceImpl ;
 	private ConverDate convertDate;
@@ -65,6 +68,8 @@ public class ClockAddActivity extends Activity {
 		convertDate = new ConverDate();
 		sqlServiceImpl = new SqlServiceImpl(getApplicationContext());
 		user = User.getUserInstance(getApplicationContext());
+		
+		fre_choice = findViewById(R.id.fre_choice);
 		
 		// 返回主页
 		toMainActivity();
@@ -110,7 +115,7 @@ public class ClockAddActivity extends Activity {
 		int hour = cal.get(Calendar.HOUR_OF_DAY);// 小时
 		int minute = cal.get(Calendar.MINUTE);// 分
 		int year = cal.get(Calendar.YEAR); //年
-		int month = cal.get(Calendar.MONTH);//月
+		int month = cal.get(Calendar.MONTH) + 1;//月
 		int day = cal.get(Calendar.DAY_OF_MONTH); //日
 		
 		saveClock(hour,minute,year,month,day);
@@ -126,7 +131,7 @@ public class ClockAddActivity extends Activity {
 		//如果不是新增则隐藏按钮
 		ImageView deleteCurrentClock = (ImageView)findViewById(R.id.delete_clock);
 		if(isNewClock) {
-			deleteCurrentClock.setVisibility(View.INVISIBLE);
+			deleteCurrentClock.setVisibility(View.GONE);
 		}else {
 			deleteCurrentClock.setOnClickListener(new OnClickListener() {
 				@Override
@@ -154,7 +159,7 @@ public class ClockAddActivity extends Activity {
 				Time.append(month+"-");
 			}
 			if(day < 10) {
-				Time.append("0"+day+"-");
+				Time.append("0"+day+" ");
 			}else{
 				Time.append(day+" ");
 			}
@@ -199,7 +204,7 @@ public class ClockAddActivity extends Activity {
 		btn_fre.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(
+			/*	AlertDialog.Builder builder = new AlertDialog.Builder(
 						ClockAddActivity.this);
 				builder.setTitle("如何叫我呢？");
 				// 指定下拉列表的显示数据
@@ -211,7 +216,14 @@ public class ClockAddActivity extends Activity {
 						tv_fre.setText(cities[which]);
 					}
 				});
-				builder.show();
+				builder.show(); */
+				if(isfreChoiceVisible) {
+					fre_choice.setVisibility(View.VISIBLE);
+					isfreChoiceVisible = false;
+				}else {
+					fre_choice.setVisibility(View.GONE);
+					isfreChoiceVisible = true;
+				}
 			}
 		});
 	}

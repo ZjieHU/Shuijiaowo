@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/write" >
+    
+    <RelativeLayout
+        android:id="@+id/rlhead"
+        android:layout_width="fill_parent"
+        android:layout_height="96px"
+        android:background="#4782cd" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:text="我的声音"
+            android:textColor="#FFFFFF"
+            android:textSize="40px" />
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/audio_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        >
+         <ImageView
+            android:id="@+id/audio"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/record_over_btn"
+         />
+    </RelativeLayout>
+    <TextView
+         android:layout_above="@id/audio_pic"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="30dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/audio_txt"
+         android:textColor="#666666"
+         android:textSize="22sp"
+         android:text="按住录音"
+         />
+    <TextView
+        android:id="@+id/audio_time"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textColor="#666666"
+        android:text="00:00"
+         />
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/enter_bg"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/write"
+        android:textSize="22sp"
+        android:text="上传"
+        android:gravity="center"
+         />
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f8f8f8" >
+    
+    <RelativeLayout
+        android:id="@+id/rlhead"
+        android:layout_width="fill_parent"
+        android:layout_height="96px"
+        android:background="#4782cd" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#00000000"
+            android:text="我的声音"
+            android:textColor="#FFFFFF"
+            android:textSize="40px" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="32px"
+            android:background="#00000000"
+            android:text="新增"
+            android:textColor="#FFFFFF"
+            android:textSize="32px" />
+    </RelativeLayout>
+    
+    <ListView 
+        android:layout_below="@id/rlhead"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/VoiceList"
+        ></ListView>
+</RelativeLayout>

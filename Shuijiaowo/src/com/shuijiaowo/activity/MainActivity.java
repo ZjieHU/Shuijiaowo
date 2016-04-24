@@ -17,8 +17,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,12 +41,17 @@ public class MainActivity extends Activity {
 
 	public static int TPID = 1; //头像ID
 	
-	PopupMenu popupMenu;
-	Menu menu;
-	
 	private static MainActivity main;
 	
+	private Button audio;
+	
+	private boolean visible = false;
+	
 	private ImageView clockHeader;
+	private ImageView pus_sign_pop;
+	private View plus_sign_pop_txt; //加号之后的边框
+	private View[] menu = new View[6];
+	
 	
 	private User user;
 
@@ -57,32 +64,34 @@ public class MainActivity extends Activity {
 		main = this;
 		context = getApplicationContext();
 		user = User.getUserInstance(getApplicationContext());
-
+		
 		// 个人中心
 		// toMe();
-
+		
 		// 叫我分类
-		popupMenu = new PopupMenu(this, findViewById(R.id.btn_clock_class));
-		menu = popupMenu.getMenu();
-		LoadPictureMenu(menu);
+		pus_sign_pop = (ImageView) findViewById(R.id.puls_sign_pop);
+		plus_sign_pop_txt = findViewById(R.id.plus_sign_pop_txt);
+		audio = (Button) findViewById(R.id.audio);
+		
+		audio.setOnClickListener(new clockClassClickListener());
+		
 		// 监听事件
-		popupMenu.setOnMenuItemClickListener(new clockClassClickListener());
-
+		LoadPictureMenu();
 		// 闹钟列表
 		clockList();
 	}
 
-	public void LoadPictureMenu(Menu menu) {
-		// 通过XML文件添加菜单项
-		MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.clock_class, menu);
-		setIconEnable(menu, true);
-		menu.getItem(0).setIcon(R.drawable.akb);
-		menu.getItem(1).setIcon(R.drawable.ic_sex_male);
-		menu.getItem(2).setIcon(android.R.drawable.ic_menu_send);
-		menu.getItem(3).setIcon(android.R.drawable.ic_menu_agenda);
-		menu.getItem(4).setIcon(android.R.drawable.ic_menu_gallery);
-		menu.getItem(5).setIcon(android.R.drawable.ic_menu_report_image);
+	public void LoadPictureMenu() {
+		//右部边框里面分类加载
+		menu[0] = findViewById(R.id.menu1);
+		menu[1] = findViewById(R.id.menu2);
+		menu[2] = findViewById(R.id.menu3);
+		menu[3] = findViewById(R.id.menu4);
+		menu[4] = findViewById(R.id.menu5);
+		menu[5] = findViewById(R.id.menu6);
+		for(View v : menu) {
+			v.setOnClickListener(new clockClassClickListener());
+		}
 	}
 	
 	public static MainActivity getMainActivityInstance() {
@@ -93,54 +102,57 @@ public class MainActivity extends Activity {
 	}
 	
 	public void popupmenu(View v) {
-		popupMenu.show();
+		//popupMenu.show();
+		if(visible) {
+			pus_sign_pop.setVisibility(View.INVISIBLE);
+			plus_sign_pop_txt.setVisibility(View.INVISIBLE);
+			visible = false;
+		}else {
+			pus_sign_pop.setVisibility(View.VISIBLE);
+			plus_sign_pop_txt.setVisibility(View.VISIBLE);
+			visible = true;
+		}
+			
 	}
 
 	// 叫我点击类
-	class clockClassClickListener implements OnMenuItemClickListener {
+	class clockClassClickListener implements OnClickListener {
 
 		Intent intent = new Intent(MainActivity.this, ClockAddActivity.class);
-
 		@Override
-		public boolean onMenuItemClick(MenuItem item) {
-			switch (item.getItemId()) {
-			case R.id.getup:
-
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.menu1 : 
 				intent.putExtra("typeid", "getup");
 				startActivity(intent);
-
 				break;
-			case R.id.th:
-
-				intent.putExtra("typeid", "th");
-				startActivity(intent);
-
-				break;
-			case R.id.meet:
-
+			case R.id.menu2 :
 				intent.putExtra("typeid", "meet");
 				startActivity(intent);
 				break;
-			case R.id.rest:
-
+			case R.id.menu3 :
+				intent.putExtra("typeid", "th");
+				startActivity(intent);
+				break;
+			case R.id.menu4 :
 				intent.putExtra("typeid", "rest");
 				startActivity(intent);
 				break;
-			case R.id.study:
-
+			case R.id.menu5 :
 				intent.putExtra("typeid", "study");
 				startActivity(intent);
-
 				break;
-			case R.id.other:
-
+			case R.id.menu6 :
 				intent.putExtra("typeid", "other");
+				startActivity(intent);
+				break;
+			case R.id.audio : //进入录音页面
+				intent = new Intent(MainActivity.this,RecordAudio.class);
 				startActivity(intent);
 				break;
 			default:
 				break;
 			}
-			return false;
 		}
 	}
 	
@@ -234,7 +246,6 @@ public class MainActivity extends Activity {
 					holder.title.setText(t.substring(11, t.length()-2)); //HH:mm:ss
 				}
 				Bitmap bitmap = clock.getHeaderPitcure();
-				Toast.makeText(getApplicationContext(), (bitmap == null)+"", 1).show();
 				if(bitmap != null) {
 					holder.imageView.setImageBitmap(bitmap);
 				}

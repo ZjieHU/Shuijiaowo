@@ -4,5 +4,6 @@
     <color name="region">#8000ff00</color>
     <color name="text">#ff848f9b</color>
     <color name="write">#ffffffff</color>
-    <color name="listTitle">#ff23323b</color>
+    <color name="listTitle">#333333</color>
+    <color name="bannershad">#7a7a7a</color>
 </resources>
