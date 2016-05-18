@@ -106,7 +106,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:text="15"
+                android:text="15 时"
                 android:textSize="40px"
                  />
             <TextView
@@ -116,7 +116,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
-                android:text="55"
+                android:text="55 分"
                 android:textSize="40px" />
         </LinearLayout>
         <LinearLayout
@@ -170,6 +170,7 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:orientation="horizontal"
+		    android:background="@color/write"
 		    android:id="@+id/btn_fre"
 		    >
 		    <TextView
@@ -185,11 +186,11 @@
 	            android:id="@+id/tv_fre"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
-	            android:background="@color/write"
 	            android:layout_weight="2"
+	            android:background="@drawable/btn_style"
 	            android:gravity="right"
 	            android:layout_marginRight="5dp"
-	            android:text="每日一次  >"
+	            android:text="每天叫我  >"
 	            android:textColor="#555555"
 	            android:textSize="22sp" />
 		    
@@ -223,7 +224,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:background="@color/write"
         android:id="@+id/fre_choice"
         >
 	    <ImageView

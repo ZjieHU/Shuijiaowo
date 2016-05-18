@@ -20,7 +20,14 @@ public class Clock implements Serializable {
 	private Timestamp Time;  //到达时间
 	private Audio audio;
 	private Bitmap headerPitcure;
+	private int count; //闹钟一星期里面闹钟的次数
 	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public Bitmap getHeaderPitcure() {
 		return headerPitcure;
 	}

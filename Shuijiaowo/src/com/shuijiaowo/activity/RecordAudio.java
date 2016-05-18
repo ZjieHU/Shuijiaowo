@@ -1,5 +1,8 @@
 package com.shuijiaowo.activity;
 
+import java.util.ArrayList;
+
+import model.Audio;
 import model.User;
 import GestureOperation.GestureWidgetOnClick;
 import android.app.Activity;
@@ -14,12 +17,17 @@ import android.widget.TextView;
 
 import com.example.shuijiaowo.R;
 
+/*
+ * 录音名称的列表
+ */
 public class RecordAudio extends Activity {
 	
 	public static int ONCLICKID_BACK = 2;
 	public static int ONCLICKID_ADDVOICE = 3;
 	
 	private User user;
+	
+	private ArrayList<Audio> audioList ;
 	
 	private ListView listView;
 	
@@ -30,7 +38,9 @@ public class RecordAudio extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.voicelist);
+		
 		user = User.getUserInstance(getApplicationContext());
+		audioList = user.getAudioMeList();
 		
 		back = (Button) findViewById(R.id.btn_back);
 		back.setId(ONCLICKID_BACK);
@@ -48,8 +58,8 @@ public class RecordAudio extends Activity {
 
 		@Override
 		public int getCount() {
-			//return user.getAudioMeList().size();
-			return 2;
+			
+			return audioList.size();
 		}
 
 		@Override
@@ -67,6 +77,7 @@ public class RecordAudio extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
+			Audio audio = audioList.get(position);
 			if(convertView == null) {
 				convertView = LayoutInflater.from(getApplicationContext())
 						.inflate(R.layout.voicedetail, null);
@@ -77,8 +88,8 @@ public class RecordAudio extends Activity {
 			}else{
 				holder = (ViewHolder)convertView.getTag();
 			}
-			holder.textView_Left.setText("录音名称");
-			holder.textView_right.setText("02:10");
+			holder.textView_Left.setText(audio.getName());
+			holder.textView_right.setText(audio.getTime().getSeconds()+"");
 			return convertView;
 		}
 		

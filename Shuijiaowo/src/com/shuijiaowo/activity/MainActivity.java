@@ -3,6 +3,7 @@ package com.shuijiaowo.activity;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 
 import model.Clock;
 import model.User;
@@ -215,7 +216,7 @@ public class MainActivity extends Activity {
 			return 0;
 		}
 
-		// ****************************************final方法
+		// final方法
 		// 注意原本getView方法中的int position变量是非final的，现在改为final
 		@Override
 		public View getView(final int position, View convertView,
@@ -242,8 +243,10 @@ public class MainActivity extends Activity {
 			}
 			if(clock != null) {
 				if(clock.getTime() != null) {
-					String t = clock.getTime().toString();
-					holder.title.setText(t.substring(11, t.length()-2)); //HH:mm:ss
+					Timestamp time = clock.getTime();
+					String hours = time.getHours()+"";
+					String minute = time.getMinutes()+"";
+					holder.title.setText(hours+":"+minute+":00"); //HH:mm
 				}
 				Bitmap bitmap = clock.getHeaderPitcure();
 				if(bitmap != null) {
@@ -252,7 +255,6 @@ public class MainActivity extends Activity {
 				holder.info.setText(clock.getRemarks());
 				holder.viewBtn.setText(clock.getFre());
 			}
-//			Log.v("myTag", "1"+(convertView == null));
 			return convertView;
 		}
 	}
@@ -265,24 +267,6 @@ public class MainActivity extends Activity {
 		public TextView info;
 		public TextView viewBtn;
 		public ImageView imageView;
-	}
-	
-	//enable为true时，菜单添加图标有效，enable为false时无效。4.0系统默认无效  
-    private void setIconEnable(Menu menu, boolean enable)  
-    {  
-        try   
-        {  
-            Class<?> clazz = Class.forName("com.android.internal.view.menu.MenuBuilder");  
-            Method m = clazz.getDeclaredMethod("setOptionalIconsVisible", boolean.class);  
-            m.setAccessible(true);  
-              
-            //MenuBuilder实现Menu接口，创建菜单时，传进来的menu其实就是MenuBuilder对象(java的多态特征)  
-            m.invoke(menu, enable);  
-              
-        } catch (Exception e)   
-        {  
-            e.printStackTrace();  
-        }  
-    }  
+	}  
 
 }

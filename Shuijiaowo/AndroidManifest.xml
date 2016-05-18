@@ -6,12 +6,18 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />  
+    <!-- 录音权限 -->  
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />  
+    <!-- 在SDCard中创建与删除文件权限 -->  
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> 
 
     <application
         android:allowBackup="true"
@@ -19,7 +25,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="com.shuijiaowo.activity.MainActivity"
+            android:name="com.shuijiaowo.activity.WelcomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.shuijiaowo.activity.LoginActivity" >
+         <activity android:name="com.shuijiaowo.activity.LoginActivity" >
+        </activity>
+        <activity android:name="com.shuijiaowo.activity.MainActivity" >
         </activity>
         <activity android:name="com.shuijiaowo.activity.ClockAddActivity" >
         </activity>
@@ -40,6 +48,8 @@
         <activity android:name="com.shuijiaowo.activity.RecordAudio">
         </activity>
         <activity android:name="com.shuijiaowo.activity.VoiceAdd" >
+        </activity>
+        <activity android:name="com.shuijiaowo.activity.ClockStart">
         </activity>
     </application>
 

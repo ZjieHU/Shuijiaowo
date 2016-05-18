@@ -40,7 +40,6 @@ public class DrawHeaderPic extends ImageView {
         paint.reset();  
         //绘制到画布上  
         canvas.drawBitmap(circleBitmap, rect, rect, paint);
-        Log.v("myTag","nihao");
 	}
 
 	//将图片处理成正方形
